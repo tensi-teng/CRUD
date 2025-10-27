@@ -106,17 +106,15 @@ def login():
     if not user or not user.check_password(password):
         return jsonify({'msg': 'invalid credentials'}), 401
 
-    # Use a string identity to satisfy PyJWT's requirement that the subject be a string
     access_token = create_access_token(identity=str(user.id))
     return jsonify({'access_token': access_token, 'user': user.to_dict()}), 200
 
-# Helper to get current user
+
 def get_current_user():
     identity = get_jwt_identity()
     if identity is None:
         return None
-    # Stored identity is a string (we store user.id as a string in the token),
-    # convert back to int for DB lookup. If conversion fails, return None.
+   
     try:
         user_id = int(identity)
     except (TypeError, ValueError):
@@ -203,12 +201,12 @@ def delete_fitness_item(item_id):
     db.session.commit()
     return jsonify({'msg': 'deleted'}), 200
 
-# Simple health check
+
 @app.route('/ping')
 def ping():
     return jsonify({'msg': 'pong'}), 200
 
 if __name__ == '__main__':
-    # For dev only. Use a WSGI server for production.
+    
     debug_mode = os.getenv('FLASK_DEBUG', 'false').lower() == 'true'
     app.run(host='0.0.0.0', port=int(os.getenv('PORT', 5000)), debug=debug_mode)
