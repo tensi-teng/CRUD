@@ -1,5 +1,19 @@
-venv/
+# Python
 __pycache__/
 *.pyc
-instance/
+*.pyo
+*.pyd
+*.env
+venv/
 .env
+
+# Database
+dev.db
+
+
+.DS_Store
+Thumbs.db
+
+
+.vscode/
+.idea/
